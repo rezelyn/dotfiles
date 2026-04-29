@@ -1,0 +1,14 @@
+module quickshell
+singleton Theme 1.0 theme/Theme.qml
+
+Bar 1.0 bar/Bar.qml
+
+AppButton 1.0 widgets/AppButton.qml
+ClockWidget 1.0 widgets/ClockWidget.qml
+NetworkIndicator 1.0 widgets/NetworkIndicator.qml
+PowerActionBtn 1.0 widgets/PowerActionBtn.qml
+PowerActions 1.0 widgets/PowerActions.qml
+PowerButton 1.0 widgets/PowerButton.qml
+Separator 1.0 widgets/Separator.qml
+VolumeIndicator 1.0 widgets/VolumeIndicator.qml
+Workspaces 1.0 widgets/Workspaces.qml
