@@ -1,12 +1,54 @@
 add_newline = true
 
 format = """
-[](fg:#A999E2)\
+[](fg:#afafff)\
+[ ](bg:#afafff fg:#1e1e2e bold)\
+$username\
+[](fg:#afafff bg:#9e9eeb)\
 $directory\
-[ ](fg:#A999E2)\
-"""
+[](fg:#9e9eeb bg:#9292df)\
+$git_branch\
+$git_status\
+[](fg:#9292df)\
+$fill\
+$cmd_duration\
+$line_break\
+$character"""
+
+[username]
+show_always = true
+format      = "[$user](bg:#afafff fg:#1e1e2e bold)"
+
+[hostname]
+ssh_only = false
+format   = "[$hostname](bg:#afafff fg:#1e1e2e bold)"
 
 [directory]
-truncate_to_repo = true
-format = "[ $path ]($style)"
-style = "bg:#A999E2 fg:#000000 bold"
+truncate_to_repo  = true
+truncation_symbol = "…/"
+format            = "[ $path ](bg:#9e9eeb fg:#1e1e2e bold)"
+
+[git_branch]
+format = "[ $symbol$branch ](bg:#9292df fg:#1e1e2e bold)"
+symbol = " "
+
+[git_status]
+format     = "([$all_status$ahead_behind ](bg:#9292df fg:#1e1e2e bold))"
+modified   = "✦"
+staged     = "+"
+deleted    = "✘"
+untracked  = "?"
+ahead      = "⇡${count}"
+behind     = "⇣${count}"
+conflicted = "✖"
+
+[fill]
+symbol = " "
+
+[cmd_duration]
+min_time = 2_000
+format   = "[$duration](fg:#f38ba8 bold)"
+
+[character]
+success_symbol = "[](fg:#a6e3a1 bold)"
+error_symbol   = "[](fg:#f38ba8 bold)"
