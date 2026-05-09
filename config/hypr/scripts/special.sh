@@ -4,7 +4,7 @@ WORKSPACE="$1"
 CLASS="$2"
 CMD="$3"
 
-if ! hyprctl clients -j | grep -q "\"class\": \"$CLASS\""; then
+if ! hyprctl clients -j | jq -e --arg c "$CLASS" 'any(.[]; .class == $c)' > /dev/null; then
     hyprctl dispatch exec "[workspace special:$WORKSPACE silent] $CMD"
 fi
 
