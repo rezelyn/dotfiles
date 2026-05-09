@@ -1,15 +1,15 @@
-import QtQuick
-
 import "../theme"
+import QtQuick
 
 Item {
     id: root
-    implicitWidth: clockLabel.implicitWidth
-    implicitHeight: 40
 
     property string timeText: Qt.formatTime(new Date(), "hh:mm")
     property string dateText: Qt.formatDate(new Date(), "dd/MM/yyyy")
     property bool hovered: false
+
+    implicitWidth: clockLabel.implicitWidth
+    implicitHeight: 40
 
     Timer {
         interval: 60000
@@ -24,6 +24,7 @@ Item {
 
     Text {
         id: clockLabel
+
         anchors.centerIn: parent
         text: root.timeText
         font.family: Theme.font
@@ -47,12 +48,14 @@ Item {
 
         Text {
             id: tipDate
+
             anchors.centerIn: parent
             text: root.dateText
             font.family: Theme.font
             font.pixelSize: 13
             color: Theme.text
         }
+
     }
 
     MouseArea {
@@ -61,4 +64,5 @@ Item {
         onEntered: root.hovered = true
         onExited: root.hovered = false
     }
+
 }

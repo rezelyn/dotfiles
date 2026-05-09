@@ -1,8 +1,7 @@
+import "../theme"
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Io
-
-import "../theme"
 
 Item {
     id: root
@@ -10,10 +9,11 @@ Item {
     property string icon: ""
     property string label: ""
     property color accentColor: Theme.text
-    property list<string> command: []
-
     property bool hovered: false
+    property color currentColor: root.hovered ? root.accentColor : Theme.subtext1
 
+    property list<string> command: []
+    
     implicitWidth: btnInner.implicitWidth + 20
     implicitHeight: btnInner.implicitHeight + 8
 
@@ -21,15 +21,19 @@ Item {
         anchors.fill: parent
         radius: 8
         color: root.hovered ? Qt.rgba(Theme.crust.r, Theme.crust.g, Theme.crust.b, 0.5) : Qt.rgba(Theme.crust.r, Theme.crust.g, Theme.crust.b, 0.25)
+
         Behavior on color {
             ColorAnimation {
                 duration: 150
             }
+
         }
+
     }
 
     RowLayout {
         id: btnInner
+
         anchors.centerIn: parent
         spacing: 6
 
@@ -37,12 +41,7 @@ Item {
             text: root.icon
             font.family: Theme.font
             font.pixelSize: 16
-            color: root.hovered ? root.accentColor : Theme.subtext1
-            Behavior on color {
-                ColorAnimation {
-                    duration: 150
-                }
-            }
+            color: root.currentColor
         }
 
         Text {
@@ -50,13 +49,9 @@ Item {
             font.family: Theme.font
             font.pixelSize: 13
             font.bold: true
-            color: root.hovered ? root.accentColor : Theme.subtext1
-            Behavior on color {
-                ColorAnimation {
-                    duration: 150
-                }
-            }
+            color: root.currentColor
         }
+
     }
 
     MouseArea {
@@ -70,6 +65,15 @@ Item {
 
     Process {
         id: btnProc
+
         command: root.command
     }
+
+    Behavior on currentColor {
+        ColorAnimation {
+            duration: 150
+        }
+
+    }
+
 }

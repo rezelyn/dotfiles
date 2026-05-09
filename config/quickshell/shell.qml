@@ -1,8 +1,7 @@
+import "./bar"
+import QtQuick
 import Quickshell
 import Quickshell.Hyprland
-import QtQuick
-
-import "./bar"
 
 ShellRoot {
     Variants {
@@ -12,25 +11,28 @@ ShellRoot {
             property var modelData
 
             screen: modelData
+            implicitHeight: 40
+            color: "transparent"
+            exclusiveZone: 40
+
             anchors {
                 top: true
                 left: true
                 right: true
             }
 
-            implicitHeight: 40
             margins {
                 top: 20
                 left: 20
                 right: 20
             }
 
-            color: "transparent"
-            exclusiveZone: 60
-
             Bar {
                 anchors.fill: parent
             }
+
         }
+
     }
+
 }

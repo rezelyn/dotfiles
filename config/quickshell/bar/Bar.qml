@@ -40,13 +40,18 @@ Rectangle {
                 Item {
                     implicitHeight: powerActions.implicitHeight
                     clip: true
-                    implicitWidth: root.powerOpen ? powerActions.implicitWidth : 0
-                    Behavior on implicitWidth {
+                    // Behavior on a plain real — RowLayout reads implicitWidth
+                    // passively each frame with no layout invalidation on change
+                    property real animatedWidth: root.powerOpen ? powerActions.implicitWidth : 0
+                    width: animatedWidth
+                    implicitWidth: animatedWidth
+                    Behavior on animatedWidth {
                         NumberAnimation {
-                            duration: 800
-                            easing.type: Easing.InOutCubic
+                            duration: 500
+                            easing.type: Easing.OutCubic
                         }
                     }
+
                     PowerActions {
                         id: powerActions
                         anchors.verticalCenter: parent.verticalCenter
@@ -56,13 +61,16 @@ Rectangle {
                 Item {
                     implicitHeight: workspaces.implicitHeight
                     clip: true
-                    implicitWidth: root.powerOpen ? 0 : workspaces.implicitWidth
-                    Behavior on implicitWidth {
+                    property real animatedWidth: root.powerOpen ? 0 : workspaces.implicitWidth
+                    width: animatedWidth
+                    implicitWidth: animatedWidth
+                    Behavior on animatedWidth {
                         NumberAnimation {
-                            duration: 800
-                            easing.type: Easing.InOutCubic
+                            duration: 500
+                            easing.type: Easing.OutCubic
                         }
                     }
+
                     Workspaces {
                         id: workspaces
                         anchors.verticalCenter: parent.verticalCenter
@@ -119,42 +127,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 0
 
-                AppButton {
-                    appName: "obs"
-                    icon: ""
-                    iconSize: 20
-                    iconPadding: 2
-                    activeColor: Theme.red
-                    launchCommand: "obs"
-                    scratchpadName: "obs"
-                }
-                AppButton {
-                    appName: "spotify"
-                    icon: ""
-                    iconSize: 20
-                    iconPadding: 2
-                    activeColor: "#2ad566"
-                    launchCommand: "spotify"
-                    scratchpadName: "spotify"
-                }
-                AppButton {
-                    appName: "steam"
-                    icon: ""
-                    iconSize: 20
-                    iconPadding: 2
-                    activeColor: "#65b9ec"
-                    launchCommand: "steam"
-                    scratchpadName: "steam"
-                }
-                AppButton {
-                    appName: "discord"
-                    icon: ""
-                    iconSize: 19
-                    iconPadding: 2
-                    activeColor: "#606ceb"
-                    launchCommand: "discord"
-                    scratchpadName: "discord"
-                }
+                SystemTrayWidget {}
 
                 Separator {}
                 VolumeIndicator {}
