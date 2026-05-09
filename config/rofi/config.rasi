@@ -1,13 +1,17 @@
 configuration {
-    modi:                       "drun,run";
+    modi:                       [drun,window,run,ssh];
     show-icons:                 true;
     icon-theme:                 "Papirus";
     drun-display-format:        "{name}";
 
     display-drun:               " Apps";
     display-run:                " Run";
+    display-ssh:                " SSH";
+    display-filebrowser:        " Wallpapers";
+    display-window:             " Windows";
 
     font:                       "JetBrainsMono Nerd Font 12";
 }
 
 @theme "~/.config/rofi/theme.rasi"
+@import "~/.config/rofi/menu.rasi"

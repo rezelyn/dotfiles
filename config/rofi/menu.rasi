@@ -1,0 +1,100 @@
+window {
+    background-color: rgba(30, 30, 46, 0.5);
+    border-color: @mauve;
+    border: 2px;
+    border-radius: 14px;
+    padding: 0px;
+    height: 500px;
+    width: 800px;
+    x-offset: 0;
+    y-offset: 0;
+    location: center;
+    anchor: center;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ inputbar, listview ];
+    padding: 16px;
+    spacing: 12px;
+}
+
+inputbar {
+    background-color: rgba(30, 30, 46, 0.75);
+    border-radius: 12px;
+    padding: 6px 6px 6px 14px;
+    spacing: 8px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    background-color: @mauve;
+    text-color: @crust;
+    font: "JetBrainsMono Nerd Font Bold 12";
+    vertical-align: 0.5;
+    padding: 4px 12px;
+    border-radius: 8px;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @text;
+    cursor: text;
+    vertical-align: 0.5;
+}
+
+listview {
+    background-color: transparent;
+    columns: 2;
+    lines: 12;
+    spacing: 4px;
+    padding: 12px;
+    fixed-height: false;
+    scrollbar: false;
+    dynamic: true;
+}
+
+element {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 8px 10px;
+    spacing: 10px;
+    orientation: horizontal;
+    children: [ element-icon, element-text ];
+}
+
+element selected {
+    background-color: rgba(203, 166, 247, 0.5);
+    text-color: @mauve;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 32px;
+    vertical-align: 0.5;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: @text;
+    vertical-align: 0.5;
+    highlight: bold;
+}
+
+scrollbar {
+    handle-color: @surface1;
+    handle-width: 4px;
+    border-radius: 12px;
+    background-color: transparent;
+}
+
+message {
+    background-color: @surface0;
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+textbox {
+    background-color: transparent;
+    text-color: @yellow;
+}

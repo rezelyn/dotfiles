@@ -1,0 +1,85 @@
+@theme "~/.config/rofi/theme.rasi"
+
+window {
+    background-color: rgba(30, 30, 46, 0.5);
+    border-color: @mauve;
+    border: 2px;
+    border-radius: 14px;
+    padding: 0px;
+    height: 360px;
+    width: 1055px;
+    location: center;
+    anchor: center;
+    y-offset: -24px;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, listview ];
+    padding:          14px;
+    spacing:          10px;
+}
+
+inputbar {
+    background-color: rgba(49, 50, 68, 0.75);
+    border-radius:    10px;
+    padding:          6px 6px 6px 14px;
+    spacing:          8px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    background-color: @mauve;
+    text-color:       @crust;
+    font:             "JetBrainsMono Nerd Font Bold 12";
+    vertical-align:   0.5;
+    padding:          4px 12px;
+    border-radius:    8px;
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @text;
+    cursor:           text;
+    vertical-align:   0.5;
+}
+
+listview {
+    background-color: transparent;
+    layout:           horizontal;
+    columns:          0;
+    lines:            12;
+    spacing:          10px;
+    padding:          6px;
+    fixed-height:     true;
+    scrollbar:        false;
+    dynamic:          false;
+}
+
+element {
+    background-color: transparent;
+    border-radius:    10px;
+    spacing:          -10px;
+    orientation:      vertical;
+    children:         [ element-icon ];
+    width:            256px;
+}
+
+element selected {
+    background-color: rgba(203, 166, 247, 0.35);
+    border:           2px;
+    border-color:     @mauve;
+}
+
+element-icon {
+    background-color: transparent;
+    size:             256px;
+    vertical-align:   0.5;
+}
+
+scrollbar {
+    handle-color:     @surface1;
+    handle-width:     4px;
+    border-radius:    12px;
+    background-color: transparent;
+}
