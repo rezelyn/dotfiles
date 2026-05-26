@@ -13,7 +13,7 @@ Item {
         font.family: Theme.font
         font.pixelSize: 16
         rightPadding: 6
-        color: Theme.surface1
+        color: Theme.surface2
     }
 
 }

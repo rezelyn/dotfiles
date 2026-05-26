@@ -18,7 +18,7 @@ end
 
 function matrix
     printf '\e]4;4;#afafff\e\\'
-    unimatrix -c blue -s 95
+    unimatrix -c blue -s 90
     printf '\e]104;4\e\\'
 end
 

@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# required pkgs:
+# - rofi
+# - swaybg
+# - imagemagick
 
 WALLPAPER_DIR="$HOME/.config/hypr/wallpaper"
 THEME="$HOME/.config/rofi/wallpaper.rasi"

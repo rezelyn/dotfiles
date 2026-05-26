@@ -1,5 +1,6 @@
 import "../theme"
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell.Io
 
@@ -15,7 +16,7 @@ Item {
     property list<string> command: []
     
     implicitWidth: btnInner.implicitWidth + 20
-    implicitHeight: btnInner.implicitHeight + 8
+    implicitHeight: btnInner.implicitHeight + 4
 
     Rectangle {
         anchors.fill: parent
@@ -42,6 +43,16 @@ Item {
             font.family: Theme.font
             font.pixelSize: 16
             color: root.currentColor
+            layer.enabled: root.hovered
+
+            layer.effect: MultiEffect {
+                shadowEnabled: true
+                shadowColor: root.currentColor
+                shadowBlur: 1
+                shadowScale: 1
+                shadowOpacity: 0.5
+            
+            }
         }
 
         Text {
@@ -50,6 +61,15 @@ Item {
             font.pixelSize: 13
             font.bold: true
             color: root.currentColor
+            layer.enabled: root.hovered
+
+            layer.effect: MultiEffect {
+                shadowEnabled: true
+                shadowColor: root.currentColor
+                shadowBlur: 1
+                shadowScale: 1
+                shadowOpacity: 0.5
+            }
         }
 
     }
@@ -71,7 +91,7 @@ Item {
 
     Behavior on currentColor {
         ColorAnimation {
-            duration: 150
+            duration: 200
         }
 
     }

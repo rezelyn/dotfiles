@@ -15,28 +15,28 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         spacing: 4
 
-        PowerActionBtn {
+        PowerActionsBtn {
             icon: "󰐥"
             label: "Power off"
             accentColor: Theme.red
             command: ["systemctl", "poweroff"]
         }
 
-        PowerActionBtn {
+        PowerActionsBtn {
             icon: "󰜉"
             label: "Reboot"
             accentColor: Theme.peach
             command: ["systemctl", "reboot"]
         }
 
-        PowerActionBtn {
+        PowerActionsBtn {
             icon: "󰒲"
             label: "Idle"
             accentColor: Theme.yellow
             command: ["systemctl", "suspend"]
         }
 
-        PowerActionBtn {
+        PowerActionsBtn {
             icon: "󰌾"
             label: "Lock"
             accentColor: Theme.lavender

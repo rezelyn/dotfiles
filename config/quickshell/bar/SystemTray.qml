@@ -8,50 +8,16 @@ import Quickshell.Services.SystemTray
 Item {
     id: root
 
+    property var activeMenu: null
+
     readonly property var iconMap: ({
         "obs": "",
         "spotify": "",
         "steam": "",
         "discord": "",
-        "nm-applet": "󰖩",
-        "network": "󰖩",
-        "blueman": "󰂯",
-        "bluetooth": "󰂯",
-        "pipewire": "󰕾",
-        "pulseaudio": "󰕾",
-        "pavucontrol": "󰕾",
-        "copyq": "󰅇",
-        "clipboard": "󰅇",
-        "kdeconnect": "󰄡",
-        "nextcloud": "󰅧",
-        "dropbox": "󰇣",
-        "megasync": "󰁇",
-        "syncthing": "󱔲",
-        "flameshot": "󰄄",
-        "screenshot": "󰄄",
-        "redshift": "󰛨",
-        "gammastep": "󰛨",
-        "dunst": "󰂞",
-        "mako": "󰂞",
-        "udiskie": "󱊟",
-        "keepass": "󰌾",
-        "bitwarden": "󰌾",
-        "caffeine": "󰅶",
-        "telegram": "󰔁",
-        "signal": "󱅣",
-        "whatsapp": "󰖣",
-        "thunderbird": "󰊫",
-        "mail": "󰊫",
-        "element": "󰭩",
-        "slack": "󰒱",
-        "zoom": "󰏿",
-        "teams": "󰊻",
-        "protonvpn": "󰒄",
-        "openvpn": "󰒄",
-        "vpn": "󰒄",
-        "qbittorrent": "󰆉",
-        "transmission": "󰆉"
+        "chrome_status_icon": "" // Equicord
     })
+    
     readonly property var scratchpadMap: ({
         "obs": {
             "name": "obs",
@@ -72,8 +38,24 @@ Item {
             "name": "discord",
             "command": "discord",
             "color": "#606ceb"
+        },
+        "vesktop": {
+            "name": "discord",
+            "command": "vesktop",
+            "color": "#606ceb"
+        },
+        "equicord": {
+            "name": "discord",
+            "command": "equicord",
+            "color": "#606ceb"
+        },
+        "chrome_status_icon": {
+            "name": "discord",
+            "command": "equicord",
+            "color": "#606ceb"
         }
     })
+    readonly property var blacklist: ["nm-applet", "network", "pipewire", "pulseaudio", "pavucontrol", "volume", "blueman", "bluetooth"]
 
     function resolveIcon(itemId) {
         const id = itemId.toLowerCase();
@@ -89,6 +71,13 @@ Item {
             return scratchpadMap[key];
         }
         return null;
+    }
+
+    function isBlacklisted(itemId) {
+        const id = itemId.toLowerCase();
+        return blacklist.some((b) => {
+            return id.includes(b);
+        });
     }
 
     implicitWidth: trayRow.implicitWidth
@@ -107,17 +96,20 @@ Item {
                 id: trayIcon
 
                 required property SystemTrayItem modelData
+                readonly property string itemId: modelData.id
+                readonly property bool itemPassive: modelData.status === SystemTrayStatus.Passive
                 property bool hovered: false
                 property bool isActive: false
-                readonly property var scratchpad: root.scratchpadFor(modelData.id)
+                readonly property var scratchpad: root.scratchpadFor(itemId)
                 readonly property color activeColor: scratchpad ? scratchpad.color : Theme.lavender
-                readonly property string glyphIcon: root.resolveIcon(modelData.id) ?? ""
+                readonly property string glyphIcon: root.resolveIcon(itemId) ?? ""
                 readonly property bool useGlyph: glyphIcon !== ""
 
-                visible: modelData.status !== SystemTrayStatus.Passive
+                visible: !itemPassive && !root.isBlacklisted(itemId)
                 implicitWidth: visible ? 28 : 0
                 implicitHeight: 40
                 Component.onCompleted: {
+                    // console.log("[SystemTray] item id:", trayIcon.modelData.id)
                     if (trayIcon.scratchpad)
                         visibilityProc.running = true;
 
@@ -155,10 +147,9 @@ Item {
                 }
 
                 Text {
-                    id: iconLabel
-
                     anchors.centerIn: parent
-                    text: root.resolveIcon(trayIcon.modelData.id)
+                    visible: trayIcon.useGlyph
+                    text: trayIcon.glyphIcon
                     font.family: Theme.font
                     font.pixelSize: 20
                     color: (trayIcon.isActive || trayIcon.hovered) ? trayIcon.activeColor : Theme.mauve
@@ -166,6 +157,25 @@ Item {
                     Behavior on color {
                         ColorAnimation {
                             duration: 250
+                        }
+
+                    }
+
+                }
+
+                Image {
+                    anchors.centerIn: parent
+                    visible: !trayIcon.useGlyph
+                    width: 20
+                    height: 20
+                    source: trayIcon.modelData.icon
+                    smooth: true
+                    mipmap: true
+                    opacity: trayIcon.hovered ? 1 : 0.75
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 150
                         }
 
                     }
@@ -184,28 +194,12 @@ Item {
                     width: tipText.implicitWidth + 12
                     height: tipText.implicitHeight + 8
                     z: 10
-
-                    Text {
-                        id: tipText
-
-                        anchors.centerIn: parent
-                        text: trayIcon.modelData.tooltip
-                        font.family: Theme.font
-                        font.pixelSize: 13
-                        color: Theme.text
-                    }
-
                 }
 
-                QsMenuAnchor {
-                    id: menuAnchor
-
-                    function updateRect() {
-                        anchor.rect = trayIcon.QsWindow.window.contentItem.mapFromItem(trayIcon, 0, 0, trayIcon.width, trayIcon.height);
-                    }
-
-                    anchor.window: trayIcon.QsWindow.window
-                    anchor.edges: Edges.Bottom
+                TrayMenu {
+                    id: trayMenu
+                    menuHandle: trayIcon.modelData.hasMenu ? trayIcon.modelData.menu : null
+                    anchorItem: trayIcon
                 }
 
                 MouseArea {
@@ -215,27 +209,47 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     onEntered: trayIcon.hovered = true
                     onExited: trayIcon.hovered = false
+                    
                     onClicked: (mouse) => {
                         if (mouse.button === Qt.LeftButton) {
                             if (trayIcon.scratchpad) {
-                                if (!trayIcon.modelData)
-                                    launchProc.exec(launchProc.command);
-
+                                if (root.activeMenu && root.activeMenu !== trayMenu)
+                                    root.activeMenu.close();
+                                root.activeMenu = null;
                                 toggleProc.exec(toggleProc.command);
                             } else if (trayIcon.modelData.menuOnly) {
                                 if (trayIcon.modelData.hasMenu) {
-                                    menuAnchor.updateRect();
-                                    menuAnchor.open(trayIcon.modelData.menu);
+                                    if (root.activeMenu && root.activeMenu !== trayMenu)
+                                        root.activeMenu.close();
+                                    root.activeMenu = trayMenu;
+                                    trayMenu.open();
                                 }
                             } else {
+                                if (root.activeMenu && root.activeMenu !== trayMenu)
+                                    root.activeMenu.close();
+                                root.activeMenu = null;
                                 trayIcon.modelData.activate();
                             }
-                        } else {
+                        } else if (mouse.button === Qt.RightButton) {
                             if (trayIcon.modelData.hasMenu) {
-                                menuAnchor.updateRect();
-                                menuAnchor.open(trayIcon.modelData.menu);
+                                if (root.activeMenu && root.activeMenu !== trayMenu) {
+                                    root.activeMenu.close();
+                                    root.activeMenu = trayMenu;
+                                    trayMenu.open();
+                                } else {
+                                    if (trayMenu._open) {
+                                        root.activeMenu = null;
+                                    } else {
+                                        root.activeMenu = trayMenu;
+                                    }
+                                    trayMenu.toggle();
+                                }
                             } else {
-                                trayIcon.modelData.display(trayIcon.QsWindow.window, mouse.x, mouse.y);
+                                if (root.activeMenu) {
+                                    root.activeMenu.close();
+                                    root.activeMenu = null;
+                                }
+                                trayIcon.modelData.secondaryActivate();
                             }
                         }
                     }

@@ -4,44 +4,53 @@ import QtQuick
 QtObject {
     property string active: "mocha"
 
-    readonly property string font: "JetBrainsMono Nerd Font"
+    readonly property var fonts: ({
+        bar:     "JetBrainsMono Nerd Font",
+        menu:    "Inter",
+        tooltip: "Inter",
+        mono:    "JetBrainsMono Nerd Font"
+    })
+
+    // back-compat
+    // todo: refactor strings and delete
+    readonly property string font: fonts.bar
 
     readonly property var profiles: ({
             "mocha": {
-                crust: "#11111b",
-                mantle: "#181825",
-                base: "#1e1e2e",
+                crust:    "#11111b",
+                mantle:   "#181825",
+                base:     "#1e1e2e",
                 surface0: "#313244",
                 surface1: "#45475a",
                 surface2: "#585b70",
-                text: "#cdd6f4",
+                text:     "#cdd6f4",
                 subtext0: "#a6adc8",
                 subtext1: "#bac2de",
                 lavender: "#b4befe",
-                mauve: "#cba6f7",
-                blue: "#89b4fa",
-                green: "#a6e3a1",
-                yellow: "#f9e2af",
-                peach: "#fab387",
-                red: "#f38ba8"
+                mauve:    "#cba6f7",
+                blue:     "#89b4fa",
+                green:    "#a6e3a1",
+                yellow:   "#f9e2af",
+                peach:    "#fab387",
+                red:      "#f38ba8"
             },
             "latte": {
-                crust: "#dce0e8",
-                mantle: "#e6e9ef",
-                base: "#eff1f5",
+                crust:    "#dce0e8",
+                mantle:   "#e6e9ef",
+                base:     "#eff1f5",
                 surface0: "#ccd0da",
                 surface1: "#bcc0cc",
                 surface2: "#acb0be",
-                text: "#4c4f69",
+                text:     "#4c4f69",
                 subtext0: "#6c6f85",
                 subtext1: "#5c5f77",
                 lavender: "#7287fd",
-                mauve: "#8839ef",
-                blue: "#1e66f5",
-                green: "#40a02b",
-                yellow: "#df8e1d",
-                peach: "#fe640b",
-                red: "#d20f39"
+                mauve:    "#8839ef",
+                blue:     "#1e66f5",
+                green:    "#40a02b",
+                yellow:   "#df8e1d",
+                peach:    "#fe640b",
+                red:      "#d20f39"
             }
         })
 

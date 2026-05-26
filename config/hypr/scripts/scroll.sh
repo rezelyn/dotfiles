@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# required pkgs:
+# - jq
 
 direction=$1
 current=$(hyprctl monitors -j | jq '.[] | select(.focused) | .activeWorkspace.id')

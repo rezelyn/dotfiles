@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# required pkgs:
+# - jq
 
 WORKSPACE="$1"
 CLASS="$2"
